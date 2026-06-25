@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio | นักศึกษา</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0d0d0d;
+      --white: #f5f4f0;
+      --red:   #b61f0f;
+      --muted: #888;
+      --card:  #1a1a1a;
+      --gap:   2rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'IBM Plex Sans Thai', 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 5%;
+      background: rgba(13,13,13,.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #222;
+    }
+    .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: .05em; }
+    .logo span { color: var(--red); }
+    nav ul { list-style: none; display: flex; gap: 1.8rem; }
+    nav ul a { color: var(--white); text-decoration: none; font-size: .9rem; opacity: .8; transition: opacity .2s; }
+    nav ul a:hover { opacity: 1; color: var(--red); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      padding: 7rem 5% 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: var(--gap);
+    }
+    .hero-text h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero-text h1 span { color: var(--red); }
+    .hero-text p { color: var(--muted); max-width: 480px; margin-bottom: 2rem; }
+    .btn {
+      display: inline-block;
+      padding: .75rem 1.8rem;
+      border: 1.5px solid var(--red);
+      color: var(--white);
+      text-decoration: none;
+      font-size: .9rem;
+      letter-spacing: .05em;
+      transition: background .2s, color .2s;
+    }
+    .btn:hover { background: var(--red); }
+
+    .hero-img {
+      position: relative;
+    }
+    .hero-img img {
+      width: 100%;
+      max-width: 420px;
+      display: block;
+      margin: 0 auto;
+      object-fit: cover;
+      aspect-ratio: 3/4;
+      filter: grayscale(20%) contrast(1.05);
+      border: 2px solid #222;
+    }
+    .hero-img::before {
+      content: '';
+      position: absolute;
+      inset: 12px -12px -12px 12px;
+      border: 1.5px solid var(--red);
+      z-index: -1;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 5%; }
+    .section-label {
+      font-size: .75rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .5rem;
+    }
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+    }
+    .divider { border: none; border-top: 1px solid #222; margin: 0 5%; }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .skill-card {
+      background: var(--card);
+      padding: 1.5rem;
+      border-left: 3px solid var(--red);
+    }
+    .skill-card h3 { font-size: 1rem; margin-bottom: .4rem; }
+    .skill-card p { font-size: .85rem; color: var(--muted); }
+
+    /* ── EXPERIENCE ── */
+    .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-year { font-size: .85rem; color: var(--red); padding-top: .2rem; }
+    .timeline-item h3 { font-size: 1rem; margin-bottom: .25rem; }
+    .timeline-item p { font-size: .85rem; color: var(--muted); }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+    .project-card {
+      background: var(--card);
+      padding: 2rem 1.5rem;
+      position: relative;
+      transition: transform .2s;
+    }
+    .project-card:hover { transform: translateY(-4px); }
+    .project-tag {
+      font-size: .7rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .5rem;
+    }
+    .project-card h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+    .project-card p { font-size: .85rem; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    #contact p { color: var(--muted); max-width: 500px; margin: 0 auto 2rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .contact-links a {
+      padding: .6rem 1.4rem;
+      border: 1px solid #333;
+      color: var(--white);
+      text-decoration: none;
+      font-size: .85rem;
+      transition: border-color .2s, color .2s;
+    }
+    .contact-links a:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5%;
+      text-align: center;
+      font-size: .8rem;
+      color: #444;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      #hero { grid-template-columns: 1fr; padding-top: 6rem; }
+      .hero-img { order: -1; }
+      .hero-img img { max-width: 280px; }
+      .timeline-item { grid-template-columns: 1fr; gap: .3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">PORT<span>.</span>FOLIO</div>
+    <ul>
+      <li><a href="#hero">หน้าหลัก</a></li>
+      <li><a href="#skills">ทักษะ</a></li>
+      <li><a href="#experience">ประสบการณ์</a></li>
+      <li><a href="#projects">ผลงาน</a></li>
+      <li><a href="#contact">ติดต่อ</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-text">
+      <p class="section-label">นักศึกษา · ปวส</p>
+      <h1>สวัสดีครับ ผมชื่อ<br /><span>นาย สายน้ำ สิงห์คำ</span></h1>
+      <p>นักศึกษาสาขาเทคโนโลยีคอมพิวเตอร์</p>
+      <a href="#contact" class="btn">ติดต่อฉัน →</a>
+    </div>
+    <div class="hero-img">
+      <img src="1778137128782_1.jpg" alt="โปรไฟล์" style="max-width: 50%; height: auto; border: 2px solid #FF5722;" />
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">ความสามารถ</p>
+    <h2>ทักษะ</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>เดินเล่น</h3>
+        <p>เดินที่เซ้นทรัล</p>
+      </div>
+      <div class="skill-card">
+        <h3>เล่นเกม</h3>
+        <p>วาโร พับจี</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">ประวัติ</p>
+    <h2>ประสบการณ์</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2569–ปัจจุบัน</div>
+        <div>
+          <h3>นักศึกษา   </h3>
+          <p>สาขาเทคโนโลยีคอมพิวเตอร์</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2568</div>
+        <div>
+          <h3>ไม่มี</h3>
+          <p>ไม่มีไร</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2566</div>
+        <div>
+          <h3>เรียน</h3>
+          <p>เรียน/p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2565</div>
+        <div>
+          <h3>ไม่มีไร</h3>
+          <p>ไม่มี</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">งานที่ทำ</p>
+    <h2>ผลงาน</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-tag">ไม่มี</div>
+        <h3>ไม่มี</h3>
+        <p>ไม่มี</p>
+      </div>
+      <div class="project-card">
+        <div class="project-tag">ไม่มี</div>
+        <h3>ไม่มี</h3>
+        <p>ไม่มี</p>
+      </div>
+      <div class="project-card">
+        <div class="project-tag">ไม่มี</div>
+        <h3>ไม่มี</h3>
+        <p>ไม่มี</p>
+      </div>
+      <div class="project-card">
+        <div class="project-tag">ไม่มี</div>
+        <h3>ไม่มี</h3>
+        <p>ไม่มี</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">ช่องทาง</p>
+    <h2>ติดต่อฉัน</h2>
+    <p>พร้อมรับงาน Freelance หรือฝึกงาน ติดต่อได้ทุกช่องทาง</p>
+    <div class="contact-links">
+      <a href="69319093012@utc.ac.th">📧 อีเมล 69319093012@utc.ac.th</a>
+      <a href="https://web.facebook.com/sainam.singkham">📱 Facebook</a>
+      <a href="https://www.instagram.com/sxsainam__/"> 🎀instagram</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2569 นายสายน้ำ สิงห์คำ 1/1  ❤️
+  </footer>
+
+</body>
+</html>
