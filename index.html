@@ -1,330 +1,1193 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio | นักศึกษา</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สายน้ำ สิงห์คำ — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Noto+Sans+Thai:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E2A3D;
+    --teal:#1B6B73;
+    --teal-light:#2C8C94;
+    --sand:#F0EAD8;
+    --cream:#FAF8F2;
+    --gold:#C9A24B;
+    --gold-light:#E0C275;
+    --charcoal:#1A1A1A;
+    --white:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Noto Sans Thai', sans-serif;
+    background:var(--cream);
+    color:var(--charcoal);
+    overflow-x:hidden;
+    position:relative;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'Space Grotesk', sans-serif;}
 
-    :root {
-      --black: #0d0d0d;
-      --white: #f5f4f0;
-      --red:   #b61f0f;
-      --muted: #888;
-      --card:  #1a1a1a;
-      --gap:   2rem;
-    }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
 
-    html { scroll-behavior: smooth; }
+  a{text-decoration:none;color:inherit;}
+  ::selection{background:var(--gold); color:var(--ink);}
 
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'IBM Plex Sans Thai', 'Space Grotesk', sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+  /* ===== River line (signature element) ===== */
+  #river-canvas{
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events:none;
+    z-index:1;
+    opacity:0.55;
+  }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 5%;
-      background: rgba(13,13,13,.85);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid #222;
-    }
-    .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: .05em; }
-    .logo span { color: var(--red); }
-    nav ul { list-style: none; display: flex; gap: 1.8rem; }
-    nav ul a { color: var(--white); text-decoration: none; font-size: .9rem; opacity: .8; transition: opacity .2s; }
-    nav ul a:hover { opacity: 1; color: var(--red); }
+  .river-svg-path{
+    position:absolute;
+    left:0; top:0;
+    width:100%;
+    z-index:0;
+    pointer-events:none;
+  }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      padding: 7rem 5% 4rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: var(--gap);
-    }
-    .hero-text h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 1rem;
-    }
-    .hero-text h1 span { color: var(--red); }
-    .hero-text p { color: var(--muted); max-width: 480px; margin-bottom: 2rem; }
-    .btn {
-      display: inline-block;
-      padding: .75rem 1.8rem;
-      border: 1.5px solid var(--red);
-      color: var(--white);
-      text-decoration: none;
-      font-size: .9rem;
-      letter-spacing: .05em;
-      transition: background .2s, color .2s;
-    }
-    .btn:hover { background: var(--red); }
+  /* ===== Nav ===== */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 6vw;
+    background:rgba(250,248,242,0.7);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(14,42,61,0.08);
+    transition:padding 0.3s ease, background 0.3s ease;
+  }
+  nav.scrolled{
+    padding:14px 6vw;
+    background:rgba(250,248,242,0.92);
+    box-shadow:0 4px 30px rgba(14,42,61,0.06);
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.3rem;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    letter-spacing:0.5px;
+  }
+  .logo-mark{
+    width:14px; height:14px;
+    border-radius:50%;
+    background:var(--gold);
+    display:inline-block;
+    box-shadow:0 0 0 0 rgba(201,162,75,0.5);
+    animation:pulse-mark 2.6s infinite;
+  }
+  @keyframes pulse-mark{
+    0%{box-shadow:0 0 0 0 rgba(201,162,75,0.45);}
+    70%{box-shadow:0 0 0 10px rgba(201,162,75,0);}
+    100%{box-shadow:0 0 0 0 rgba(201,162,75,0);}
+  }
+  .nav-links{
+    display:flex;
+    gap:38px;
+    list-style:none;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.92rem;
+    font-weight:500;
+  }
+  .nav-links li a{
+    position:relative;
+    color:var(--ink);
+    padding:4px 0;
+    opacity:0.75;
+    transition:opacity 0.25s ease;
+  }
+  .nav-links li a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:-2px;
+    width:0; height:2px;
+    background:var(--gold);
+    transition:width 0.3s ease;
+  }
+  .nav-links li a:hover{opacity:1;}
+  .nav-links li a:hover::after{width:100%;}
+  .nav-toggle{display:none;}
 
-    .hero-img {
-      position: relative;
+  @media(max-width:780px){
+    .nav-links{
+      position:fixed;
+      top:0; right:-100%;
+      height:100vh;
+      width:70%;
+      background:var(--ink);
+      flex-direction:column;
+      justify-content:center;
+      align-items:flex-start;
+      padding:0 12vw;
+      gap:28px;
+      transition:right 0.4s cubic-bezier(.77,0,.18,1);
+      z-index:99;
     }
-    .hero-img img {
-      width: 100%;
-      max-width: 420px;
-      display: block;
-      margin: 0 auto;
-      object-fit: cover;
-      aspect-ratio: 3/4;
-      filter: grayscale(20%) contrast(1.05);
-      border: 2px solid #222;
+    .nav-links.open{right:0;}
+    .nav-links li a{color:var(--sand); opacity:0.85; font-size:1.1rem;}
+    .nav-toggle{
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      cursor:pointer;
+      z-index:101;
+      background:none;
+      border:none;
     }
-    .hero-img::before {
-      content: '';
-      position: absolute;
-      inset: 12px -12px -12px 12px;
-      border: 1.5px solid var(--red);
-      z-index: -1;
+    .nav-toggle span{
+      width:24px; height:2px;
+      background:var(--ink);
+      transition:all 0.3s ease;
     }
+    .nav-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .nav-toggle.active span:nth-child(2){opacity:0;}
+    .nav-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  }
 
-    /* ── SECTIONS ── */
-    section { padding: 5rem 5%; }
-    .section-label {
-      font-size: .75rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: .5rem;
-    }
-    h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: 700;
-      margin-bottom: 2.5rem;
-    }
-    .divider { border: none; border-top: 1px solid #222; margin: 0 5%; }
+  section{
+    position:relative;
+    z-index:2;
+    padding:140px 6vw;
+  }
 
-    /* ── SKILLS ── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1rem;
-    }
-    .skill-card {
-      background: var(--card);
-      padding: 1.5rem;
-      border-left: 3px solid var(--red);
-    }
-    .skill-card h3 { font-size: 1rem; margin-bottom: .4rem; }
-    .skill-card p { font-size: .85rem; color: var(--muted); }
+  .eyebrow{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.8rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--teal);
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:28px; height:1px;
+    background:var(--gold);
+  }
 
-    /* ── EXPERIENCE ── */
-    .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 1.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid #1e1e1e;
-    }
-    .timeline-item:last-child { border-bottom: none; }
-    .timeline-year { font-size: .85rem; color: var(--red); padding-top: .2rem; }
-    .timeline-item h3 { font-size: 1rem; margin-bottom: .25rem; }
-    .timeline-item p { font-size: .85rem; color: var(--muted); }
+  /* ===== Hero ===== */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:140px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:60px;
+    align-items:center;
+    width:100%;
+    max-width:1280px;
+    margin:0 auto;
+  }
+  .hero-name{
+    font-size:clamp(3rem, 7vw, 5.6rem);
+    font-weight:600;
+    line-height:1.05;
+    color:var(--ink);
+    margin-bottom:8px;
+  }
+  .hero-name .flow{
+    color:var(--teal);
+    font-style:italic;
+    font-weight:400;
+    position:relative;
+    display:inline-block;
+  }
+  .hero-role{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.15rem;
+    color:var(--charcoal);
+    opacity:0.75;
+    margin:18px 0 26px;
+    max-width:520px;
+    line-height:1.7;
+  }
+  .hero-cta{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    padding:15px 30px;
+    border-radius:100px;
+    cursor:pointer;
+    transition:all 0.35s cubic-bezier(.2,.8,.2,1);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    border:none;
+  }
+  .btn-primary{
+    background:var(--ink);
+    color:var(--cream);
+    box-shadow:0 8px 24px rgba(14,42,61,0.25);
+  }
+  .btn-primary:hover{
+    background:var(--teal);
+    transform:translateY(-3px);
+    box-shadow:0 14px 30px rgba(27,107,115,0.35);
+  }
+  .btn-outline{
+    background:transparent;
+    color:var(--ink);
+    border:1.5px solid rgba(14,42,61,0.3);
+  }
+  .btn-outline:hover{
+    border-color:var(--gold);
+    background:rgba(201,162,75,0.1);
+    transform:translateY(-3px);
+  }
 
-    /* ── PROJECTS ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.2rem;
-    }
-    .project-card {
-      background: var(--card);
-      padding: 2rem 1.5rem;
-      position: relative;
-      transition: transform .2s;
-    }
-    .project-card:hover { transform: translateY(-4px); }
-    .project-tag {
-      font-size: .7rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: .5rem;
-    }
-    .project-card h3 { font-size: 1.05rem; margin-bottom: .5rem; }
-    .project-card p { font-size: .85rem; color: var(--muted); }
+  .hero-portrait-wrap{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  .hero-portrait{
+    width:100%;
+    max-width:340px;
+    aspect-ratio:3/3.6;
+    border-radius:30% 30% 30% 30% / 8% 8% 0 0;
+    background:linear-gradient(160deg, var(--teal) 0%, var(--ink) 100%);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 30px 60px -15px rgba(14,42,61,0.4);
+    animation:float-portrait 6s ease-in-out infinite;
+  }
+  @keyframes float-portrait{
+    0%,100%{transform:translateY(0px) rotate(0deg);}
+    50%{transform:translateY(-14px) rotate(0.6deg);}
+  }
+  .hero-portrait-initial{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Fraunces', serif;
+    font-size:7rem;
+    color:rgba(250,248,242,0.92);
+    font-weight:300;
+  }
+  .hero-portrait::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(201,162,75,0.35), transparent 50%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 14px);
+  }
+  .ripple-ring{
+    position:absolute;
+    border:1.5px solid rgba(27,107,115,0.35);
+    border-radius:50%;
+    pointer-events:none;
+  }
+  .ripple-ring.r1{ width:120%; height:120%; top:-10%; left:-10%; animation:ripple 4s ease-out infinite;}
+  .ripple-ring.r2{ width:120%; height:120%; top:-10%; left:-10%; animation:ripple 4s ease-out infinite 1.3s;}
+  .ripple-ring.r3{ width:120%; height:120%; top:-10%; left:-10%; animation:ripple 4s ease-out infinite 2.6s;}
+  @keyframes ripple{
+    0%{transform:scale(0.75); opacity:0.7;}
+    100%{transform:scale(1.15); opacity:0;}
+  }
 
-    /* ── CONTACT ── */
-    #contact { text-align: center; }
-    #contact p { color: var(--muted); max-width: 500px; margin: 0 auto 2rem; }
-    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-    .contact-links a {
-      padding: .6rem 1.4rem;
-      border: 1px solid #333;
-      color: var(--white);
-      text-decoration: none;
-      font-size: .85rem;
-      transition: border-color .2s, color .2s;
-    }
-    .contact-links a:hover { border-color: var(--red); color: var(--red); }
+  .scroll-cue{
+    position:absolute;
+    bottom:36px;
+    left:6vw;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.78rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:0.55;
+  }
+  .scroll-cue .line{
+    width:1px; height:34px;
+    background:linear-gradient(to bottom, var(--gold), transparent);
+    position:relative;
+    overflow:hidden;
+  }
+  .scroll-cue .line::after{
+    content:'';
+    position:absolute;
+    top:0; left:0; width:100%; height:10px;
+    background:var(--ink);
+    animation:scrollDrop 1.8s infinite;
+  }
+  @keyframes scrollDrop{
+    0%{transform:translateY(-10px);}
+    100%{transform:translateY(34px);}
+  }
 
-    /* ── FOOTER ── */
-    footer {
-      padding: 2rem 5%;
-      text-align: center;
-      font-size: .8rem;
-      color: #444;
-      border-top: 1px solid #1a1a1a;
-    }
+  /* ===== reveal-on-scroll ===== */
+  .reveal{
+    opacity:0;
+    transform:translateY(36px);
+    transition:opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .reveal-delay-1{transition-delay:0.1s;}
+  .reveal-delay-2{transition-delay:0.22s;}
+  .reveal-delay-3{transition-delay:0.34s;}
+  .reveal-delay-4{transition-delay:0.46s;}
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      #hero { grid-template-columns: 1fr; padding-top: 6rem; }
-      .hero-img { order: -1; }
-      .hero-img img { max-width: 280px; }
-      .timeline-item { grid-template-columns: 1fr; gap: .3rem; }
-    }
-  </style>
+  /* ===== Section headers ===== */
+  .section-head{
+    max-width:680px;
+    margin-bottom:70px;
+  }
+  .section-head h2{
+    font-size:clamp(2.2rem, 4vw, 3.2rem);
+    color:var(--ink);
+    font-weight:600;
+    line-height:1.15;
+  }
+  .section-head p{
+    margin-top:16px;
+    color:var(--charcoal);
+    opacity:0.7;
+    font-size:1.05rem;
+    line-height:1.8;
+  }
+
+  /* ===== Skills ===== */
+  .skills{background:var(--ink); color:var(--cream); position:relative;}
+  .skills .eyebrow{color:var(--gold-light);}
+  .skills .section-head h2{color:var(--cream);}
+  .skills .section-head p{color:var(--sand); opacity:0.65;}
+
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:24px;
+    margin-top:20px;
+  }
+  .skill-card{
+    background:rgba(250,248,242,0.04);
+    border:1px solid rgba(250,248,242,0.12);
+    border-radius:20px;
+    padding:32px;
+    transition:all 0.4s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .skill-card::before{
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:3px;
+    background:linear-gradient(90deg, var(--gold), var(--teal-light));
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.5s ease;
+  }
+  .skill-card:hover{
+    background:rgba(250,248,242,0.08);
+    transform:translateY(-8px);
+    border-color:rgba(201,162,75,0.4);
+  }
+  .skill-card:hover::before{transform:scaleX(1);}
+  .skill-card h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.15rem;
+    font-weight:600;
+    margin-bottom:14px;
+    color:var(--cream);
+  }
+  .skill-bar-track{
+    height:6px;
+    background:rgba(250,248,242,0.12);
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:14px;
+  }
+  .skill-bar-fill{
+    height:100%;
+    border-radius:10px;
+    background:linear-gradient(90deg, var(--teal-light), var(--gold));
+    width:0%;
+    transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .skill-meta{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.82rem;
+    opacity:0.7;
+    margin-top:8px;
+  }
+  .skill-card p{
+    font-size:0.9rem;
+    opacity:0.6;
+    line-height:1.6;
+  }
+
+  .skill-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:50px;
+  }
+  .skill-tag{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.85rem;
+    padding:9px 18px;
+    border-radius:100px;
+    border:1px solid rgba(250,248,242,0.2);
+    color:var(--sand);
+    transition:all 0.3s ease;
+    cursor:default;
+  }
+  .skill-tag:hover{
+    background:var(--gold);
+    color:var(--ink);
+    border-color:var(--gold);
+    transform:translateY(-3px) rotate(-1deg);
+  }
+
+  /* ===== Experience (timeline along the river) ===== */
+  .experience{background:var(--cream);}
+  .timeline{
+    position:relative;
+    margin-top:30px;
+    padding-left:50px;
+  }
+  .timeline::before{
+    content:'';
+    position:absolute;
+    left:8px; top:6px; bottom:6px;
+    width:2px;
+    background:linear-gradient(to bottom, var(--gold), var(--teal), var(--ink));
+  }
+  .timeline-item{
+    position:relative;
+    padding-bottom:64px;
+  }
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-dot{
+    position:absolute;
+    left:-50px; top:4px;
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--cream);
+    border:3px solid var(--teal);
+    transition:all 0.4s ease;
+  }
+  .timeline-item.in .timeline-dot{
+    background:var(--gold);
+    border-color:var(--gold);
+    box-shadow:0 0 0 6px rgba(201,162,75,0.18);
+  }
+  .timeline-date{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.85rem;
+    color:var(--teal);
+    font-weight:600;
+    letter-spacing:1px;
+    margin-bottom:8px;
+    display:block;
+  }
+  .timeline-item h3{
+    font-size:1.5rem;
+    color:var(--ink);
+    margin-bottom:10px;
+    font-weight:600;
+  }
+  .timeline-item p{
+    color:var(--charcoal);
+    opacity:0.72;
+    line-height:1.8;
+    max-width:620px;
+  }
+  .timeline-tags{
+    display:flex;
+    gap:8px;
+    margin-top:14px;
+    flex-wrap:wrap;
+  }
+  .timeline-tags span{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.78rem;
+    padding:5px 13px;
+    background:rgba(27,107,115,0.1);
+    color:var(--teal);
+    border-radius:100px;
+    font-weight:600;
+  }
+
+  /* ===== Work / Portfolio ===== */
+  .work{background:var(--sand); position:relative;}
+  .work-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    gap:32px;
+    margin-top:20px;
+  }
+  .work-card{
+    background:var(--cream);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 10px 40px -10px rgba(14,42,61,0.12);
+    transition:all 0.45s cubic-bezier(.2,.8,.2,1);
+    cursor:pointer;
+    position:relative;
+  }
+  .work-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 50px -10px rgba(14,42,61,0.25);
+  }
+  .work-thumb{
+    height:220px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .work-thumb span.num{
+    font-family:'Fraunces', serif;
+    font-size:5rem;
+    font-weight:300;
+    color:rgba(250,248,242,0.5);
+    transition:transform 0.5s ease;
+  }
+  .work-card:hover .work-thumb span.num{transform:scale(1.12) rotate(-3deg);}
+  .work-thumb.t1{background:linear-gradient(135deg, var(--teal), var(--ink));}
+  .work-thumb.t2{background:linear-gradient(135deg, var(--gold), #8a6d2e);}
+  .work-thumb.t3{background:linear-gradient(135deg, var(--ink), #051018);}
+  .work-thumb.t4{background:linear-gradient(135deg, var(--teal-light), var(--teal));}
+  .work-thumb::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(120deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 16px);
+  }
+  .work-body{padding:28px 26px 30px;}
+  .work-body .cat{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.76rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--teal);
+    font-weight:700;
+  }
+  .work-body h3{
+    font-size:1.35rem;
+    margin:10px 0 10px;
+    color:var(--ink);
+    font-weight:600;
+  }
+  .work-body p{
+    font-size:0.92rem;
+    color:var(--charcoal);
+    opacity:0.68;
+    line-height:1.7;
+  }
+  .work-link{
+    margin-top:16px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:0.88rem;
+    color:var(--ink);
+  }
+  .work-link svg{transition:transform 0.3s ease;}
+  .work-card:hover .work-link svg{transform:translateX(5px);}
+
+  /* ===== Contact ===== */
+  .contact{
+    background:var(--ink);
+    color:var(--cream);
+    position:relative;
+    overflow:hidden;
+  }
+  .contact-inner{
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+    position:relative;
+    z-index:3;
+  }
+  .contact .eyebrow{justify-content:center; color:var(--gold-light);}
+  .contact h2{
+    font-size:clamp(2.4rem, 5vw, 4rem);
+    line-height:1.15;
+    margin-bottom:24px;
+  }
+  .contact h2 .flow{color:var(--teal-light); font-style:italic;}
+  .contact p.lead{
+    font-size:1.1rem;
+    opacity:0.7;
+    max-width:560px;
+    margin:0 auto 46px;
+    line-height:1.8;
+  }
+  .contact-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:20px;
+    margin-top:10px;
+    text-align:left;
+  }
+  .contact-card{
+    background:rgba(250,248,242,0.05);
+    border:1px solid rgba(250,248,242,0.12);
+    border-radius:18px;
+    padding:26px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    transition:all 0.35s ease;
+  }
+  .contact-card:hover{
+    background:rgba(201,162,75,0.1);
+    border-color:var(--gold);
+    transform:translateY(-5px);
+  }
+  .contact-icon{
+    width:46px; height:46px;
+    border-radius:50%;
+    background:rgba(201,162,75,0.15);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .contact-icon svg{width:20px; height:20px; stroke:var(--gold-light);}
+  .contact-card .ct-label{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.76rem;
+    opacity:0.55;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .contact-card .ct-value{
+    font-weight:600;
+    font-size:0.98rem;
+    margin-top:3px;
+    word-break:break-word;
+  }
+
+  .form-wrap{
+    margin-top:60px;
+    background:rgba(250,248,242,0.04);
+    border:1px solid rgba(250,248,242,0.1);
+    border-radius:24px;
+    padding:44px;
+    text-align:left;
+  }
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px;}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+  .form-wrap input, .form-wrap textarea{
+    width:100%;
+    background:rgba(250,248,242,0.06);
+    border:1px solid rgba(250,248,242,0.18);
+    border-radius:12px;
+    padding:14px 16px;
+    color:var(--cream);
+    font-family:'Noto Sans Thai', sans-serif;
+    font-size:0.95rem;
+    transition:border-color 0.3s ease, background 0.3s ease;
+  }
+  .form-wrap input::placeholder, .form-wrap textarea::placeholder{color:rgba(250,248,242,0.4);}
+  .form-wrap input:focus, .form-wrap textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+    background:rgba(250,248,242,0.1);
+  }
+  .form-wrap textarea{resize:vertical; min-height:120px; margin-bottom:24px;}
+  .form-submit{
+    width:100%;
+    justify-content:center;
+    background:var(--gold);
+    color:var(--ink);
+  }
+  .form-submit:hover{background:var(--gold-light); transform:translateY(-3px);}
+  .form-note{
+    margin-top:14px;
+    font-size:0.82rem;
+    opacity:0.55;
+    text-align:center;
+    font-family:'Space Grotesk', sans-serif;
+  }
+
+  footer{
+    background:var(--ink);
+    color:var(--sand);
+    text-align:center;
+    padding:30px 6vw 36px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:0.82rem;
+    opacity:0.5;
+    border-top:1px solid rgba(250,248,242,0.08);
+    position:relative;
+    z-index:3;
+  }
+
+  /* scroll progress bar */
+  #progress-bar{
+    position:fixed;
+    top:0; left:0;
+    height:3px;
+    background:linear-gradient(90deg, var(--gold), var(--teal-light));
+    z-index:200;
+    width:0%;
+    box-shadow:0 0 12px rgba(201,162,75,0.6);
+  }
+
+  /* back to top */
+  #back-to-top{
+    position:fixed;
+    bottom:30px; right:30px;
+    width:48px; height:48px;
+    border-radius:50%;
+    background:var(--ink);
+    color:var(--cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    opacity:0;
+    transform:translateY(20px);
+    pointer-events:none;
+    transition:all 0.35s ease;
+    z-index:90;
+    box-shadow:0 8px 24px rgba(14,42,61,0.3);
+    border:none;
+  }
+  #back-to-top.show{opacity:1; transform:translateY(0); pointer-events:auto;}
+  #back-to-top:hover{background:var(--gold); color:var(--ink); transform:translateY(-4px);}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr; text-align:center;}
+    .hero-cta{justify-content:center;}
+    .hero-portrait-wrap{order:-1;}
+    .eyebrow{justify-content:center;}
+    .timeline{padding-left:38px;}
+    .timeline-dot{left:-38px;}
+  }
+  @media(max-width:480px){
+    section{padding:100px 6vw;}
+    .form-wrap{padding:28px;}
+  }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="logo">PORT<span>.</span>FOLIO</div>
-    <ul>
-      <li><a href="#hero">หน้าหลัก</a></li>
-      <li><a href="#skills">ทักษะ</a></li>
-      <li><a href="#experience">ประสบการณ์</a></li>
-      <li><a href="#projects">ผลงาน</a></li>
-      <li><a href="#contact">ติดต่อ</a></li>
-    </ul>
-  </nav>
+<div id="progress-bar"></div>
+<canvas id="river-canvas"></canvas>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-text">
-      <p class="section-label">นักศึกษา · ปวส</p>
-      <h1>สวัสดีครับ ผมชื่อ<br /><span>นาย สายน้ำ สิงห์คำ</span></h1>
-      <p>นักศึกษาสาขาเทคโนโลยีคอมพิวเตอร์</p>
-      <a href="#contact" class="btn">ติดต่อฉัน →</a>
-    </div>
-    <div class="hero-img">
-      <img src="1778137128782_1.jpg" alt="โปรไฟล์" style="max-width: 50%; height: auto; border: 2px solid #FF5722;" />
+<nav id="navbar">
+  <div class="logo"><span class="logo-mark"></span>สายน้ำ.</div>
+  <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" class="nav-item">หน้าแรก</a></li>
+    <li><a href="#skills" class="nav-item">ทักษะ</a></li>
+    <li><a href="#experience" class="nav-item">ประสบการณ์</a></li>
+    <li><a href="#work" class="nav-item">ผลงาน</a></li>
+    <li><a href="#contact" class="nav-item">ติดต่อฉัน</a></li>
+  </ul>
+</nav>
 
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <p class="section-label">ความสามารถ</p>
-    <h2>ทักษะ</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <h3>เดินเล่น</h3>
-        <p>เดินที่เซ้นทรัล</p>
-      </div>
-      <div class="skill-card">
-        <h3>เล่นเกม</h3>
-        <p>วาโร พับจี</p>
-      </div>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow reveal in">PORTFOLIO ของนักศึกษา</div>
+      <h1 class="hero-name reveal in reveal-delay-1">นาย<span class="flow">สายน้ำ</span><br>สิงห์คำ</h1>
+      <p class="hero-role reveal in reveal-delay-2">นักศึกษาสาขาเทคโนโลยีดิจิทัล ผู้หลงใหลในการออกแบบและพัฒนาเว็บไซต์ — ไหลลื่นไปกับทุกไอเดีย เหมือนสายน้ำที่ไม่หยุดค้นหาทางของมันเอง</p>
+      <div class="hero-cta reveal in reveal-delay-3">
+        <a href="#work" class="btn btn-primary">ดูผลงานของฉัน →</a>
+        <a href="#contact" class="btn btn-outline">ติดต่อฉัน</a>
       </div>
     </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <p class="section-label">ประวัติ</p>
-    <h2>ประสบการณ์</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-year">2569–ปัจจุบัน</div>
-        <div>
-          <h3>นักศึกษา   </h3>
-          <p>สาขาเทคโนโลยีคอมพิวเตอร์</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">2568</div>
-        <div>
-          <h3>ไม่มี</h3>
-          <p>ไม่มีไร</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">2566</div>
-        <div>
-          <h3>เรียน</h3>
-          <p>เรียน/p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year">2565</div>
-        <div>
-          <h3>ไม่มีไร</h3>
-          <p>ไม่มี</p>
-        </div>
+    <div class="hero-portrait-wrap reveal in reveal-delay-2">
+      <div class="ripple-ring r1"></div>
+      <div class="ripple-ring r2"></div>
+      <div class="ripple-ring r3"></div>
+      <div class="hero-portrait">
+        <img src="1778137128782_1.jpg" alt="นายสายน้ำ สิงห์คำ" class="hero-portrait-img">
       </div>
     </div>
-  </section>
+  </div>
+  <div class="scroll-cue"><span>เลื่อนลง</span><span class="line"></span></div>
+</section>
 
-  <hr class="divider" />
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-head reveal">
+    <div class="eyebrow">02 — ความเชี่ยวชาญ</div>
+    <h2>ทักษะที่ไหลผ่านการเรียนรู้</h2>
+    <p>ทุกทักษะคือกระแสน้ำที่สั่งสมมาจากการฝึกฝนอย่างต่อเนื่อง ผสมผสานทั้งด้านเทคนิคและความคิดสร้างสรรค์เข้าด้วยกัน</p>
+  </div>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <p class="section-label">งานที่ทำ</p>
-    <h2>ผลงาน</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-tag">ไม่มี</div>
-        <h3>ไม่มี</h3>
-        <p>ไม่มี</p>
-      </div>
-      <div class="project-card">
-        <div class="project-tag">ไม่มี</div>
-        <h3>ไม่มี</h3>
-        <p>ไม่มี</p>
-      </div>
-      <div class="project-card">
-        <div class="project-tag">ไม่มี</div>
-        <h3>ไม่มี</h3>
-        <p>ไม่มี</p>
-      </div>
-      <div class="project-card">
-        <div class="project-tag">ไม่มี</div>
-        <h3>ไม่มี</h3>
-        <p>ไม่มี</p>
+  <div class="skills-grid">
+    <div class="skill-card reveal reveal-delay-1">
+      <h3>HTML / CSS / JavaScript</h3>
+      <p>พัฒนาเว็บไซต์ตอบสนองทุกอุปกรณ์ ด้วยโครงสร้างที่สะอาดและมีลูกเล่นแอนิเมชัน</p>
+      <div class="skill-bar-track"><div class="skill-bar-fill" data-level="90"></div></div>
+      <div class="skill-meta"><span>ระดับความชำนาญ</span><span>90%</span></div>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <h3>UI / UX Design</h3>
+      <p>ออกแบบประสบการณ์ผู้ใช้ที่ลื่นไหล เข้าใจง่าย และสวยงามด้วย Figma</p>
+      <div class="skill-bar-track"><div class="skill-bar-fill" data-level="85"></div></div>
+      <div class="skill-meta"><span>ระดับความชำนาญ</span><span>85%</span></div>
+    </div>
+    <div class="skill-card reveal reveal-delay-3">
+      <h3>React & Front-End</h3>
+      <p>สร้างเว็บแอปพลิเคชันแบบ Component-based ที่ดูแลรักษาได้ง่าย</p>
+      <div class="skill-bar-track"><div class="skill-bar-fill" data-level="78"></div></div>
+      <div class="skill-meta"><span>ระดับความชำนาญ</span><span>78%</span></div>
+    </div>
+    <div class="skill-card reveal reveal-delay-4">
+      <h3>Graphic & Visual Design</h3>
+      <p>ออกแบบกราฟิกและสื่อภาพประกอบด้วย Adobe Illustrator และ Photoshop</p>
+      <div class="skill-bar-track"><div class="skill-bar-fill" data-level="82"></div></div>
+      <div class="skill-meta"><span>ระดับความชำนาญ</span><span>82%</span></div>
+    </div>
+  </div>
+
+  <div class="skill-tags reveal reveal-delay-2">
+    <span class="skill-tag">Figma</span>
+    <span class="skill-tag">Tailwind CSS</span>
+    <span class="skill-tag">Git & GitHub</span>
+    <span class="skill-tag">Photoshop</span>
+    <span class="skill-tag">Python</span>
+    <span class="skill-tag">การทำงานเป็นทีม</span>
+    <span class="skill-tag">การคิดเชิงออกแบบ</span>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-head reveal">
+    <div class="eyebrow">03 — เส้นทาง</div>
+    <h2>ประสบการณ์ตลอดสายน้ำ</h2>
+    <p>เส้นทางการเรียนรู้และฝึกงานที่หล่อหลอมตัวตนในวันนี้ ทุกช่วงเวลาคือบทเรียนที่นำพาไปสู่จุดที่ดีขึ้น</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <span class="timeline-date">2026 — ปัจจุบัน</span>
+      <h3>นักศึกษาฝึกงาน ฝ่ายพัฒนาเว็บไซต์</h3>
+      <p>ร่วมพัฒนาเว็บแอปพลิเคชันภายในองค์กร ดูแลตั้งแต่การออกแบบ UI จนถึงการเขียนโค้ดฝั่ง Front-end ทำงานร่วมกับทีมจริงในระบบ Agile</p>
+      <div class="timeline-tags"><span>React</span><span>Teamwork</span><span>Agile</span></div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <span class="timeline-date">2568</span>
+      <h3>ประธานชมรมคอมพิวเตอร์</h3>
+      <p>วางแผนและจัดกิจกรรมเวิร์กชอปด้านเทคโนโลยีให้รุ่นน้อง พร้อมดูแลทีมงานกว่า 15 คนให้บรรลุเป้าหมายของชมรม</p>
+      <div class="timeline-tags"><span>Leadership</span><span>Event Planning</span></div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <span class="timeline-date">2567</span>
+      <h3>นักพัฒนาเว็บไซต์อิสระ (Freelance)</h3>
+      <p>รับงานออกแบบและพัฒนาเว็บไซต์ให้ร้านค้าและธุรกิจขนาดเล็กในท้องถิ่น เรียนรู้การทำงานกับลูกค้าจริงและบริหารเวลาด้วยตนเอง</p>
+      <div class="timeline-tags"><span>Freelance</span><span>Client Work</span></div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <span class="timeline-date">2566</span>
+      <h3>เริ่มต้นเส้นทางการเขียนโค้ด</h3>
+      <p>เริ่มศึกษาการเขียนโปรแกรมด้วยตนเองผ่านคอร์สออนไลน์ ค้นพบความหลงใหลในการสร้างสรรค์สิ่งต่าง ๆ ผ่านหน้าจอคอมพิวเตอร์</p>
+      <div class="timeline-tags"><span>Self-taught</span><span>Foundations</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="section-head reveal">
+    <div class="eyebrow">04 — ผลงาน</div>
+    <h2>ผลงานที่ภาคภูมิใจ</h2>
+    <p>คัดเลือกผลงานบางส่วนที่สะท้อนแนวคิดและทักษะที่ได้สั่งสมมา แต่ละชิ้นคือบทพิสูจน์ของความตั้งใจ</p>
+  </div>
+
+  <div class="work-grid">
+    <div class="work-card reveal reveal-delay-1">
+      <div class="work-thumb t1"><span class="num">01</span></div>
+      <div class="work-body">
+        <span class="cat">เว็บแอปพลิเคชัน</span>
+        <h3>ระบบจัดการร้านกาแฟออนไลน์</h3>
+        <p>เว็บแอปสำหรับสั่งและจัดการออเดอร์ร้านกาแฟ พร้อมระบบหลังบ้านสำหรับเจ้าของร้าน</p>
+        <a href="#" class="work-link">ดูรายละเอียด
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <p class="section-label">ช่องทาง</p>
-    <h2>ติดต่อฉัน</h2>
-    <p>พร้อมรับงาน Freelance หรือฝึกงาน ติดต่อได้ทุกช่องทาง</p>
-    <div class="contact-links">
-      <a href="69319093012@utc.ac.th">📧 อีเมล 69319093012@utc.ac.th</a>
-      <a href="https://web.facebook.com/sainam.singkham">📱 Facebook</a>
-      <a href="https://www.instagram.com/sxsainam__/"> 🎀instagram</a>
+    <div class="work-card reveal reveal-delay-2">
+      <div class="work-thumb t2"><span class="num">02</span></div>
+      <div class="work-body">
+        <span class="cat">UI / UX Design</span>
+        <h3>แอปพลิเคชันติดตามสุขภาพ</h3>
+        <p>ออกแบบประสบการณ์ผู้ใช้สำหรับแอปติดตามการออกกำลังกายและโภชนาการรายวัน</p>
+        <a href="#" class="work-link">ดูรายละเอียด
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </div>
-  </section>
+    <div class="work-card reveal reveal-delay-3">
+      <div class="work-thumb t3"><span class="num">03</span></div>
+      <div class="work-body">
+        <span class="cat">Landing Page</span>
+        <h3>เว็บไซต์แนะนำสถานที่ท่องเที่ยว</h3>
+        <p>เว็บไซต์โปรโมทสถานที่ท่องเที่ยวเชิงธรรมชาติ พร้อมแกลเลอรีภาพและแผนที่แบบอินเทอร์แอกทีฟ</p>
+        <a href="#" class="work-link">ดูรายละเอียด
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="work-card reveal reveal-delay-4">
+      <div class="work-thumb t4"><span class="num">04</span></div>
+      <div class="work-body">
+        <span class="cat">Data Visualization</span>
+        <h3>แดชบอร์ดวิเคราะห์ข้อมูลนักศึกษา</h3>
+        <p>เครื่องมือแสดงผลข้อมูลผลการเรียนแบบเรียลไทม์ ช่วยให้อาจารย์ที่ปรึกษาติดตามนักศึกษาได้ง่ายขึ้น</p>
+        <a href="#" class="work-link">ดูรายละเอียด
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    © 2569 นายสายน้ำ สิงห์คำ 1/1  ❤️
-  </footer>
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="eyebrow">05 — ติดต่อฉัน</div>
+    <h2 class="reveal">มาคุยกัน<br>และสร้างสิ่งใหม่<span class="flow">ไปด้วยกัน</span></h2>
+    <p class="lead reveal reveal-delay-1">เปิดรับโอกาสในการฝึกงาน ทำงานร่วมกัน หรือพูดคุยเกี่ยวกับโปรเจกต์ที่น่าสนใจ ติดต่อมาได้เลยครับ ผมพร้อมรับฟังทุกไอเดีย</p>
+
+    <div class="contact-cards reveal reveal-delay-2">
+      <div class="contact-card">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" stroke="none"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></div>
+        <div><div class="ct-label">อีเมล</div><div class="ct-value">saainam.singkham@email.com</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div><div class="ct-label">โทรศัพท์</div><div class="ct-value">089-123-4567</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="ct-label">ที่ตั้ง</div><div class="ct-value">กรุงเทพมหานคร, ประเทศไทย</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></div>
+        <div><div class="ct-label">โซเชียลมีเดีย</div><div class="ct-value">@saainam.dev</div></div>
+      </div>
+    </div>
+
+    <form class="form-wrap reveal reveal-delay-3" id="contactForm">
+      <div class="form-row">
+        <input type="text" placeholder="ชื่อของคุณ" required>
+        <input type="email" placeholder="อีเมลของคุณ" required>
+      </div>
+      <textarea placeholder="ข้อความที่อยากบอกฉัน..." required></textarea>
+      <button type="submit" class="btn form-submit">ส่งข้อความ ✉</button>
+      <p class="form-note">แบบฟอร์มนี้เป็นตัวอย่างสำหรับการนำเสนอ ยังไม่เชื่อมต่อระบบส่งอีเมลจริง</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  © 2026 สายน้ำ สิงห์คำ — สร้างด้วยความตั้งใจ 🌊 All rights reserved.
+</footer>
+
+<button id="back-to-top" aria-label="กลับขึ้นด้านบน">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+  // ===== Mobile nav toggle =====
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('active');
+    navLinks.classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-item').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('active');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // ===== Navbar scroll state + progress bar =====
+  const navbar = document.getElementById('navbar');
+  const progressBar = document.getElementById('progress-bar');
+  const backToTop = document.getElementById('back-to-top');
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    progressBar.style.width = progress + '%';
+
+    navbar.classList.toggle('scrolled', scrollTop > 30);
+    backToTop.classList.toggle('show', scrollTop > 500);
+  });
+
+  backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  // ===== Scroll reveal =====
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ===== Timeline dots activate on scroll =====
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) entry.target.classList.add('in');
+    });
+  }, { threshold: 0.4 });
+  timelineItems.forEach(el => timelineObserver.observe(el));
+
+  // ===== Skill bars fill on scroll =====
+  const skillBars = document.querySelectorAll('.skill-bar-fill');
+  const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const fill = entry.target;
+        fill.style.width = fill.dataset.level + '%';
+        skillObserver.unobserve(fill);
+      }
+    });
+  }, { threshold: 0.3 });
+  skillBars.forEach(el => skillObserver.observe(el));
+
+  // ===== Contact form (demo only, no backend) =====
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    const original = btn.innerHTML;
+    btn.innerHTML = 'ส่งเรียบร้อยแล้ว ✓';
+    btn.style.background = '#2C8C94';
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+      e.target.reset();
+    }, 2400);
+  });
+
+  // ===== River canvas animation (signature element) =====
+  const canvas = document.getElementById('river-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function resize(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = document.documentElement.scrollHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Generate a smooth winding path of control points down the page
+  function generatePoints(){
+    const pts = [];
+    const segments = Math.ceil(h / 220) + 2;
+    for(let i = 0; i <= segments; i++){
+      const y = i * 220;
+      const xBase = w * 0.5 + Math.sin(i * 0.8) * w * 0.30;
+      pts.push({x: xBase, y: y, phase: i * 1.3});
+    }
+    return pts;
+  }
+  let points = generatePoints();
+  window.addEventListener('resize', () => { points = generatePoints(); });
+
+  let t = 0;
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const scrollY = window.scrollY;
+
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for(let i = 1; i < points.length - 1; i++){
+      const p = points[i];
+      const wobble = prefersReducedMotion ? 0 : Math.sin(t * 0.0006 + p.phase) * 14;
+      const cx = (points[i-1].x + p.x) / 2 + wobble;
+      const cy = (points[i-1].y + p.y) / 2;
+      ctx.quadraticCurveTo(points[i-1].x, points[i-1].y, cx, cy);
+    }
+    const last = points[points.length-1];
+    ctx.lineTo(last.x, last.y);
+
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, 'rgba(201,162,75,0.55)');
+    grad.addColorStop(0.4, 'rgba(27,107,115,0.45)');
+    grad.addColorStop(1, 'rgba(14,42,61,0.3)');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.shadowColor = 'rgba(27,107,115,0.25)';
+    ctx.shadowBlur = 12;
+    ctx.stroke();
+
+    // flowing dashes (current direction indicator)
+    ctx.setLineDash([2, 18]);
+    ctx.lineDashOffset = prefersReducedMotion ? 0 : -t * 0.05;
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = 'rgba(250,248,242,0.5)';
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    if(!prefersReducedMotion){
+      t += 16;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script>
 
 </body>
 </html>
